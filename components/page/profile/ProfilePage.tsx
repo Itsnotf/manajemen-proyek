@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,19 +9,37 @@ import { updateUsers } from "@/services/users";
 
 export default function ProfilePage() {
   const { toast } = useToast();
-  const userString = localStorage.getItem("users") || "{}";
-  const userData = JSON.parse(userString);
-
+  const [userData, setUserData] = useState({
+    id:"",
+    name: "",
+    email: "",
+    role_id: null as string | null, // Ubah di sini
+  });
+  
   const [formData, setFormData] = useState({
-    name: userData.name || "",
-    email: userData.email || "",
+    name: "",
+    email: "",
     password: "",
-    role_id: userData.role_id,
+    role_id: null as string | null, // Ubah di sini
     confirmPassword: "", 
   });
 
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState("");
+
+  // Mengambil data dari localStorage saat komponen pertama kali dimuat
+  useEffect(() => {
+    const userString = localStorage.getItem("users") || "{}";
+    const parsedUserData = JSON.parse(userString);
+    setUserData(parsedUserData);
+    setFormData({
+      name: parsedUserData.name || "",
+      email: parsedUserData.email || "",
+      password: "",
+      role_id: parsedUserData.role_id || null, // Ubah di sini
+      confirmPassword: "", 
+    });
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -34,7 +52,7 @@ export default function ProfilePage() {
   const handleCancel = () => {
     setFormData({
       name: userData.name || "",
-      role_id: userData.role_id || "",
+      role_id: userData.role_id || null, // Ubah di sini
       email: userData.email || "",
       password: "",
       confirmPassword: "", 

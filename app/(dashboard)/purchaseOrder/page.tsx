@@ -1,4 +1,3 @@
-import ProjectsPage from '@/components/page/project/projectsPage'
 import PurchaseOrderPage from '@/components/page/purchaseOrder/PurchaseOrderPage'
 import React from 'react'
 
