@@ -151,92 +151,96 @@ export default function FormEditProject() {
   return isLoading ? (
     <LoadingSpinner />
   ) : (
-    <div>
-      <form
-        className="space-y-4"
-        onSubmit={handleSubmit}
-        encType="multipart/form-data"
-      >
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="client_id">Client</Label>
-            <Select
-              options={clientOptions}
-              value={clientId}
-              onChange={(selectedOption) =>
-                setClientId(selectedOption as { value: string; label: string })
-              }
-              placeholder="Select a client"
-              className="w-full"
-            />
-          </div>
-          <div>
-            <Label htmlFor="file">Upload File</Label>
-            <Input
-              type="file"
-              id="file"
-              onChange={(e) => setFile(e.target.files?.[0] || null)}
-            />
-          </div>
-          <div>
-            <Label htmlFor="title">Title</Label>
-            <Input
-              type="text"
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Enter project title"
-            />
-          </div>
-          <div>
-            <Label htmlFor="start_date">Start Date</Label>
-            <Input
-              type="date"
-              id="start_date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-            />
-          </div>
-          <div>
-            <Label htmlFor="service_price">Service Price</Label>
-            <Input
-              type="number"
-              id="service_price"
-              value={servicePrice}
-              onChange={(e) => setServicePrice(e.target.value)}
-              placeholder="Enter service price"
-            />
-          </div>
-          <div>
-            <Label htmlFor="end_date">End Date</Label>
-            <Input
-              type="date"
-              id="end_date"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-            />
-          </div>
-        </div>
+    <div className="p-4 md:p-6">
+    <form
+      className="space-y-4"
+      onSubmit={handleSubmit}
+      encType="multipart/form-data"
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <Label htmlFor="description">Description</Label>
-          <Textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Enter project description"
+          <Label htmlFor="client_id">Client</Label>
+          <Select
+            options={clientOptions}
+            value={clientId}
+            onChange={(selectedOption) =>
+              setClientId(selectedOption as { value: string; label: string })
+            }
+            placeholder="Select a client"
+            className="w-full"
           />
         </div>
-        <div className="flex justify-between">
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={() => router.push("/projects")}
-          >
-            Back
-          </Button>
-          <Button type="submit">Save Project</Button>
+        <div>
+          <Label htmlFor="file">Upload File</Label>
+          <Input
+            type="file"
+            id="file"
+            onChange={(e) => setFile(e.target.files?.[0] || null)}
+          />
         </div>
-      </form>
-    </div>
+        <div>
+          <Label htmlFor="title">Title</Label>
+          <Input
+            type="text"
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Enter project title"
+          />
+        </div>
+        <div>
+          <Label htmlFor="start_date">Start Date</Label>
+          <Input
+            type="date"
+            id="start_date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+        </div>
+        <div>
+          <Label htmlFor="service_price">Service Price</Label>
+          <Input
+            type="number"
+            id="service_price"
+            value={servicePrice}
+            onChange={(e) => setServicePrice(e.target.value)}
+            placeholder="Enter service price"
+          />
+        </div>
+        <div>
+          <Label htmlFor="end_date">End Date</Label>
+          <Input
+            type="date"
+            id="end_date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+        </div>
+      </div>
+      <div>
+        <Label htmlFor="description">Description</Label>
+        <Textarea
+          id="description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Enter project description"
+        />
+      </div>
+      <div className="flex flex-col md:flex-row justify-between gap-4">
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={() => router.push("/projects")}
+          className="w-full md:w-auto"
+        >
+          Back
+        </Button>
+        <Button type="submit" className="w-full md:w-auto">
+          Save Project
+        </Button>
+      </div>
+    </form>
+  </div>
+  
   );
 }

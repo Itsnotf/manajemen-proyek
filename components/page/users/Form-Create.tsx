@@ -23,13 +23,17 @@ export default function FormCreateUsers() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState<{ value: string; label: string } | null>(
-    null
-  );
+  const [role, setRole] = useState<{ value: string; label: string } | null>(null);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (password.length < 6) {
+      toast({ title: "Error", description: "Password must be at least 6 characters.", variant: "destructive" });
+      return;
+    }
+
     const requiredFields = [
       { value: name, message: "Please enter a name." },
       { value: email, message: "Please enter an email." },
@@ -39,11 +43,7 @@ export default function FormCreateUsers() {
 
     for (const { value, message } of requiredFields) {
       if (!value) {
-        toast({
-          title: "Error",
-          description: message,
-          variant: "destructive",
-        });
+        toast({ title: "Error", description: message, variant: "destructive" });
         return;
       }
     }
@@ -53,38 +53,27 @@ export default function FormCreateUsers() {
       formData.append("name", name);
       formData.append("email", email);
       formData.append("password", password);
-      formData.append("role_id", role?.value || ""); 
+      formData.append("role_id", role?.value || "");
 
       const response = await Register(formData);
-      toast({
-        title: "Success",
-        description: response.message || "User created successfully!",
-        variant: "default",
-      });
-
-      router.push("/users"); // Redirect ke halaman daftar users
+      toast({ title: "Success", description: response.message || "User created successfully!", variant: "default" });
+      router.push("/users");
     } catch (error) {
       console.error("Error submitting form:", error);
-      toast({
-        title: "Error",
-        description: "Failed to create user. Please try again.",
-        variant: "destructive",
-      });
+      toast({ title: "Error", description: "Failed to create user. Please try again.", variant: "destructive" });
     }
   };
 
   return (
-    <div>
+    <div className="max-w-2xl mx-auto p-4">
       <form className="space-y-4" onSubmit={handleSubmit}>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="role">Role</Label>
             <Select
               options={roleOptions}
               value={role}
-              onChange={(selectedOption) =>
-                setRole(selectedOption as { value: string; label: string })
-              }
+              onChange={(selectedOption) => setRole(selectedOption as { value: string; label: string })}
               placeholder="Select a role"
               className="w-full"
             />
@@ -116,18 +105,12 @@ export default function FormCreateUsers() {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter password"
+              placeholder="Enter password (min 6 characters)"
             />
           </div>
         </div>
-        <div className="flex justify-between">
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={() => router.push("/users")}
-          >
-            Back
-          </Button>
+        <div className="flex flex-col md:flex-row justify-between gap-2">
+          <Button type="button" variant="secondary" onClick={() => router.push("/users")}>Back</Button>
           <Button type="submit">Create User</Button>
         </div>
       </form>

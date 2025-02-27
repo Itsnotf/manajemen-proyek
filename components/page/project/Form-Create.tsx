@@ -49,7 +49,8 @@ export default function FormCreateProject() {
   }, []);
 
   // Jika users masih null, gunakan array kosong agar tidak error saat mapping
-  const clientOptions = users?.filter((user: any) => user.role_id === 4)
+  const clientOptions = users
+    ?.filter((user: any) => user.role_id === 4)
     .map((client: any) => ({
       value: client.id.toString(), // pastikan value berupa string
       label: client.name,
@@ -120,7 +121,7 @@ export default function FormCreateProject() {
         onSubmit={handleSubmit}
         encType="multipart/form-data"
       >
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="client_id">Client</Label>
             <Select
@@ -139,6 +140,7 @@ export default function FormCreateProject() {
               type="file"
               id="file"
               onChange={(e) => setFile(e.target.files?.[0] || null)}
+              className="w-full"
             />
           </div>
           <div>
@@ -149,6 +151,7 @@ export default function FormCreateProject() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Enter project title"
+              className="w-full"
             />
           </div>
           <div>
@@ -158,6 +161,7 @@ export default function FormCreateProject() {
               id="start_date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
+              className="w-full"
             />
           </div>
           <div>
@@ -168,6 +172,7 @@ export default function FormCreateProject() {
               value={servicePrice}
               onChange={(e) => setServicePrice(e.target.value)}
               placeholder="Enter service price"
+              className="w-full"
             />
           </div>
           <div>
@@ -177,6 +182,7 @@ export default function FormCreateProject() {
               id="end_date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
+              className="w-full"
             />
           </div>
         </div>
@@ -187,13 +193,21 @@ export default function FormCreateProject() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Enter project description"
+            className="w-full"
           />
         </div>
-        <div className="flex justify-between">
-          <Button variant="secondary" onClick={() => router.push("/projects")}>
+        <div className="flex flex-col sm:flex-row justify-between gap-2">
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => router.push("/projects")}
+            className="w-full sm:w-auto"
+          >
             Back
           </Button>
-          <Button type="submit">Create Project</Button>
+          <Button type="submit" className="w-full sm:w-auto">
+            Create Project
+          </Button>
         </div>
       </form>
     </div>

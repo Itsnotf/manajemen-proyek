@@ -90,7 +90,7 @@ export default function FormEditUsers() {
       const response = await updateUsers(id, formData);
       toast({
         title: "Success",
-        description: response.message || "User created successfully!",
+        description: response.message || "User updated successfully!",
         variant: "default",
       });
 
@@ -108,9 +108,9 @@ export default function FormEditUsers() {
   return isLoading ? (
     <LoadingSpinner />
   ) : (
-    <div>
+    <div className="max-w-2xl mx-auto p-4">
       <form className="space-y-4" onSubmit={handleSubmit}>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="role">Role</Label>
             <Select
@@ -158,7 +158,7 @@ export default function FormEditUsers() {
             />
           </div>
         </div>
-        <div className="flex justify-between">
+        <div className="flex flex-col md:flex-row justify-between gap-2">
           <Button
             type="button"
             variant="secondary"
