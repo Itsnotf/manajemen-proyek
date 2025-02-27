@@ -30,7 +30,6 @@ export default function FormLogin() {
     try {
       const response = await Login(email, password);
       if (response.status) {
-        Cookies.set("token", response.token, { expires: 7 });
         localStorage.setItem("token", response.token);
         localStorage.setItem("users", JSON.stringify(response.data));      
         const role_id = response.data.role_id;
