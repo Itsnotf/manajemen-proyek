@@ -1,10 +1,6 @@
-import DetailBill from '@/components/page/bills/DetailBill'
-import React from 'react'
+import DetailBill from "@/components/page/bills/DetailBill";
 
-export default function Bill() {
-  return (
-    <div>
-      <DetailBill/>
-    </div>
-  )
+
+export default function BillPage() {
+  return <DetailBill/>;
 }

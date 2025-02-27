@@ -1,11 +1,10 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Login } from "../../../../services/auth";
+import { getUser, Login } from "../../../../services/auth";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
@@ -16,7 +15,6 @@ export default function FormLogin() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  // Check if the user is already logged in
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -27,26 +25,35 @@ export default function FormLogin() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    
     try {
       const response = await Login(email, password);
+  
       if (response.status) {
-        localStorage.setItem("token", response.token);
-        localStorage.setItem("users", JSON.stringify(response.data));      
-        const role_id = response.data.role_id;
-        if (role_id === 4) {
-          router.push("/projects"); 
+        const userData = await getUser();
+        
+        if (userData) {
+          localStorage.setItem("users", JSON.stringify(userData));      
+          const role_id = userData.role_id; 
+          
+          if (role_id === 4) {
+            router.push("/projects"); 
+          } else {
+            router.push("/dashboard");
+          }
         } else {
-          router.push("/dashboard");
+          setError("Gagal mendapatkan data user.");
         }
       } else {
-        setError(response.message || "Login failed");
+        setError(response.message || "Login gagal");
       }
     } catch (error: any) {
-      setError(error.message || "An unexpected error occurred");
+      setError(error.message || "Terjadi kesalahan yang tidak diketahui");
     } finally {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen">

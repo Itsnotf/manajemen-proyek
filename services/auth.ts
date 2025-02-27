@@ -34,6 +34,20 @@ export const Login = async (email: string, password: string): Promise<LoginRespo
   }
 };
 
+export const getUser = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/user`, {
+      withCredentials: true, // Pakai cookies dari Sanctum
+    });
+
+    return response.data.user;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    return null;
+  }
+};
+
+
 
 export const Logout = async () => {
   const token = localStorage.getItem("token");
