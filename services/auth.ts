@@ -10,6 +10,7 @@ axios.defaults.xsrfHeaderName = 'X-XSRF-TOKEN';
 
 export const Login = async (email: string, password: string): Promise<LoginResponse> => {
   try {
+    const token = localStorage.getItem("token");
     await axios.get(`${API_SAC}/sanctum/csrf-cookie`, { withCredentials: true });
 
     const response = await axios.post(
@@ -17,6 +18,7 @@ export const Login = async (email: string, password: string): Promise<LoginRespo
       { email, password },
       {
         headers: {
+           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
           "Accept": "application/json",
         },
@@ -35,9 +37,18 @@ export const Login = async (email: string, password: string): Promise<LoginRespo
 };
 
 export const getUser = async () => {
+  const token = localStorage.getItem("token");
+
+  if (!token) return;
+
   try {
     const response = await axios.get(`${API_URL}/user`, {
-      withCredentials: true, // Pakai cookies dari Sanctum
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      withCredentials: true, 
     });
 
     return response.data.user;
